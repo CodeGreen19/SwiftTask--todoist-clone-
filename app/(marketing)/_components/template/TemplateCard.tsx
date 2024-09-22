@@ -13,7 +13,7 @@ const TemplateCard = ({
   index: number;
 }) => {
   return (
-    <div className={cn("h-72 flex-none w-60 rounded-lg bg-green-400")}>
+    <div className={cn("h-72 flex-none w-60 rounded-lg bg-amber-100")}>
       <h1>{title}</h1>
     </div>
   );

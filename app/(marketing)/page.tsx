@@ -15,8 +15,8 @@ import Footer from "./_components/Footer";
 const HomePage = () => {
   return (
     <div>
+      <Navbar />
       <div className="container m-auto">
-        <Navbar />
         <Hero />
         <Review />
         <Steps />

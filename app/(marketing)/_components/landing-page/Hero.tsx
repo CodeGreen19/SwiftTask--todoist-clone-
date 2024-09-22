@@ -33,7 +33,7 @@ const Hero = () => {
             </span>
           </p>
           <div className="flex items-center justify-center md:justify-start">
-            <Button className="p-6 md:p-8 mt-6 bg-signature hover:bg-amber-600 rounded-md md:rounded-xl  md:text-lg ">
+            <Button className="p-6 md:p-8 mt-6 bg-signature hover:bg-amber-600 rounded-md md:rounded-xl  md:text-lg  shadow-[6px_6px_0px_#c57000] -translate-x-2 -translate-y-2 hover:translate-x-0 hover:translate-y-0 transition-all hover:shadow-none">
               Star for free
             </Button>
           </div>

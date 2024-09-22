@@ -15,7 +15,9 @@ const StepsMobile = () => {
               className: item.headingColor,
             }}
           />
-          <div className="bg-green-500 min-h-72">for video</div>
+          <div className="bg-slate-300 rounded-md min-h-72 flex items-center justify-center">
+            for video
+          </div>
         </div>
       ))}
     </div>

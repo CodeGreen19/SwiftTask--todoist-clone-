@@ -6,12 +6,7 @@ import SetVideoBox from "../steps/SetVideoBox";
 import { StepsDataInfo } from "../data";
 import { motion } from "framer-motion";
 
-let data = [
-  "this is the first text ",
-  "this is the secound text ",
-  "this is the third text ",
-  "this is the fourth text ",
-];
+let data = ["First Video", "Secont Video ", "Third Video ", "Forth Video "];
 
 const Steps = () => {
   const [showVideo, setShowVideo] = useState<number>(0);
@@ -39,7 +34,7 @@ const Steps = () => {
         </div>
 
         <div>
-          <div className="bg-red-300 sticky top-20  z-20 items-start">
+          <div className="rounded-lg border border-gray-300 sticky top-32  z-20 items-start">
             <SetVideoBox text={data[showVideo]} />
           </div>
         </div>

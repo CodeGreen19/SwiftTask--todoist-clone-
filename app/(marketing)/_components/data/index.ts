@@ -233,3 +233,49 @@ export const template_data = [
     ],
   },
 ];
+
+import { FaYoutube, FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
+export const footerLinks = [
+  {
+    title: "Features",
+    links: [
+      { text: "How It Works", link: "#how-it-works" },
+      { text: "For Teams", link: "#for-teams" },
+      { text: "Pricing", link: "#pricing" },
+      { text: "Templates", link: "#templates" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { text: "Download Apps", link: "#download-apps" },
+      { text: "Help Center", link: "#help-center" },
+      { text: "Productivity Methods", link: "#productivity-methods" },
+      { text: "Integrations", link: "#integrations" },
+      { text: "Channel Partners", link: "#channel-partners" },
+      { text: "Developer API", link: "#developer-api" },
+      { text: "Status", link: "#status" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { text: "About Us", link: "#about-us" },
+      { text: "Careers", link: "#careers" },
+      { text: "Inspiration Hub", link: "#inspiration-hub" },
+      { text: "Press", link: "#press" },
+      { text: "Twist", link: "#twist" },
+    ],
+  },
+  {
+    title: "Social Media",
+    icons: [
+      { name: "Twitter", link: "#twitter", icon: FaXTwitter },
+      { name: "YouTube", link: "#youtube", icon: FaYoutube },
+      { name: "Facebook", link: "#facebook", icon: FaFacebook },
+      { name: "Instagram", link: "#instagram", icon: FaInstagram },
+    ],
+  },
+];
