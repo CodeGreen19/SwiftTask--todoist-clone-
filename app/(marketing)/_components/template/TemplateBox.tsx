@@ -31,6 +31,7 @@ const TemplateBox = () => {
         <div className="my-14 grid grid-cols-4 xl:grid-cols-5 gap-3">
           {template_data[selectedItem].info.map((item, i) => (
             <TemplateCard
+              key={i}
               title={item.title}
               des={item.des}
               imageUrl={item.imageUrl}
