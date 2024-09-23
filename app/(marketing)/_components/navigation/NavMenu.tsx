@@ -26,12 +26,16 @@ const NavMenu = () => {
 
       <div className="border-l-2 pl-4 border-gray-300 space-x-3">
         {" "}
-        <Button className="p-5 hover:bg-slate-200" variant={"secondary"}>
-          Log in
-        </Button>{" "}
-        <Button className="p-5 hover:bg-amber-600  bg-signature">
-          Start for free
-        </Button>
+        <Link href={"/auth/login"}>
+          <Button className="p-5 hover:bg-slate-200" variant={"secondary"}>
+            Log in
+          </Button>
+        </Link>
+        <Link href={"/auth/signup"}>
+          <Button className="p-5 hover:bg-amber-600  bg-signature">
+            Start for free
+          </Button>
+        </Link>
       </div>
     </div>
   );

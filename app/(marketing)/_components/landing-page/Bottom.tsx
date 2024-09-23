@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 const Bottom = () => {
@@ -11,9 +12,11 @@ const Bottom = () => {
       <h2 className="lg:text-xl text-zinc-500">
         374000+ ★★★★★ reviews on Google Play and App Store
       </h2>
-      <Button className="p-6 md:p-8 mt-6 bg-signature hover:bg-amber-600 rounded-md md:rounded-xl  md:text-lg  shadow-[6px_6px_0px_#c57000] -translate-x-2 -translate-y-2 hover:translate-x-0 hover:translate-y-0 transition-all hover:shadow-none">
-        Star for free
-      </Button>
+      <Link href={"/auth/signup"}>
+        <Button className="p-6 md:p-8 mt-6 bg-signature hover:bg-amber-600 rounded-md md:rounded-xl  md:text-lg  shadow-[6px_6px_0px_#c57000] -translate-x-2 -translate-y-2 hover:translate-x-0 hover:translate-y-0 transition-all hover:shadow-none">
+          Star for free
+        </Button>
+      </Link>
     </div>
   );
 };
