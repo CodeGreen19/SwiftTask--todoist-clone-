@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useTransition } from "react";
+import { Fragment, useEffect, useTransition } from "react";
 import { AuthInput } from "../_components/AuthInput";
 import AuthSocial from "../_components/AuthSocial";
 import AuthWrapper from "../_components/AuthWrapper";
@@ -16,12 +16,19 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginAction } from "@/actions/auth";
 import { useSession } from "next-auth/react";
 import { showToast } from "@/components/shared/toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const { update } = useSession();
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider!"
+      : "";
+
+  // showToast("error", urlError);
 
   const { mutate, isPending } = useMutation({
     mutationFn: LoginAction,
@@ -97,8 +104,13 @@ const LoginPage = () => {
             </Link>
           </div>
           <AuthSubmitBtn text="Login" loading={isPending} />
-          <AuthSocial />
         </form>
+        <div className="flex flex-col gap-1">
+          {urlError && (
+            <p className="my-1 text-rose-500 text-sm">error : {urlError}</p>
+          )}
+          <AuthSocial />
+        </div>
       </Form>
     </AuthWrapper>
   );

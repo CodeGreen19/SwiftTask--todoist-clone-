@@ -106,8 +106,10 @@ const SignUpPage = () => {
           ></FormField>
 
           <AuthSubmitBtn text="Sign Up" loading={isPending} />
-          <AuthSocial />
         </form>
+        <div className="flex flex-col gap-1">
+          <AuthSocial />
+        </div>
       </Form>
     </AuthWrapper>
   );

@@ -11,4 +11,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   ...authConfig,
+  callbacks: {
+    signIn: async ({ user, account }: any) => {
+      if (account?.provider !== "credentials") {
+        return true;
+      }
+      return true;
+    },
+  },
 });
