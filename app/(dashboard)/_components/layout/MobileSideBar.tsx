@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -8,18 +9,23 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
+import UserMenu from "./UserMenu";
 
-const MobileSideBar = () => {
+const MobileSideBar = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Sheet>
-        <SheetTrigger>Open</SheetTrigger>
+        <SheetOverlay className="bg-black/15" />
+        <SheetTrigger>{children}</SheetTrigger>
         <SheetContent side={"left"} className="bg-amber-50">
+          <SheetClose className="flex items-center justify-end w-full">
+            <BsReverseLayoutTextSidebarReverse />
+          </SheetClose>
           <SheetHeader>
             <SheetTitle>Are you absolutely sure?</SheetTitle>
             <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              <UserMenu />
             </SheetDescription>
           </SheetHeader>
         </SheetContent>

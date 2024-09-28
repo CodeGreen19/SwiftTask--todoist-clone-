@@ -13,17 +13,14 @@ const DashboardLaoyout = ({ children }: { children: React.ReactNode }) => {
       <div className="hidden lg:block">
         <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
-      <div className="lg:hidden">
-        <MobileSideBar />
-      </div>
       <div
         className={cn(
-          " mr-0 transition-all",
+          " mr-0 transition-all duration-500",
           isOpen ? "lg:ml-[280px]" : "mr-0"
         )}
       >
         <DashboardNav />
-        {children}
+        <div className="p-4">{children}</div>
       </div>
     </div>
   );

@@ -15,18 +15,13 @@ import Footer from "./_components/Footer";
 const HomePage = () => {
   return (
     <div>
-      <Navbar />
-      <div className="container m-auto">
-        <Hero />
-        <Review />
-        <Steps />
-        <StepsMobile />
-        <ExampleVideo />
-        <Templates />
-        <Testimonials />
-      </div>
-      <Bottom />
-      <Footer />
+      <Hero />
+      <Review />
+      <Steps />
+      <StepsMobile />
+      <ExampleVideo />
+      <Templates />
+      <Testimonials />
     </div>
   );
 };

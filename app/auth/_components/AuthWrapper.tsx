@@ -12,11 +12,11 @@ import AuthSocial from "./AuthSocial";
 import Image from "next/image";
 
 type AuthWrapperType = {
-  type: "Login" | "Sign Up" | "Forgot Password" | "Reset PassWord";
+  type: "Login" | "Sign Up" | "Forgot Password" | "Reset Password";
   caption: string;
-  to_question: string;
-  to_link: string;
-  to_text: string;
+  to_question?: string;
+  to_link?: string;
+  to_text?: string;
   children: React.ReactNode;
   imageUrl: string;
 };
@@ -43,12 +43,14 @@ const AuthWrapper = ({
               <p className="text-balance text-muted-foreground">{caption}</p>
             </div>
             {children}
-            <div className="mt-0 text-center text-sm">
-              {to_question}{" "}
-              <Link href={to_link} className="underline">
-                {to_text}
-              </Link>
-            </div>
+            {to_link && to_question && to_text && (
+              <div className="mt-0 text-center text-sm">
+                {to_question}{" "}
+                <Link href={to_link} className="underline">
+                  {to_text}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

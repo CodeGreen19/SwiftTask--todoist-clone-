@@ -1,24 +1,40 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useTransition } from "react";
 import { AuthInput } from "../_components/AuthInput";
 import AuthSocial from "../_components/AuthSocial";
 import AuthWrapper from "../_components/AuthWrapper";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
-import {
-  LoginSchema,
-  LoginSchemaType,
-  SignUpSchema,
-  SignUpSchemaType,
-} from "@/schema/auth";
+import { LoginSchema, LoginSchemaType } from "@/schema/auth";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import AuthSubmitBtn from "../_components/AuthSubmitBtn";
+import { useMutation } from "@tanstack/react-query";
+import { LoginAction } from "@/actions/auth";
+import { useSession } from "next-auth/react";
+import { showToast } from "@/components/shared/toast";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginPage = () => {
+  const { update } = useSession();
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: LoginAction,
+    onSuccess: async ({ error, message }) => {
+      if (error) {
+        LoginForm.reset();
+        return showToast("error", error);
+      }
+      if (message) {
+        await update();
+      }
+    },
+  });
   const LoginForm = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -28,16 +44,17 @@ const LoginPage = () => {
   });
 
   const onSubmit = (value: LoginSchemaType) => {
-    console.log(value);
+    mutate(value);
   };
+
   return (
     <AuthWrapper
-      type="Sign Up"
+      type="Login"
       caption="Enter your credentials to login"
-      imageUrl="signUp image"
-      to_link="/auth/login"
-      to_question="Aleary have an account?"
-      to_text="Login"
+      imageUrl="login image"
+      to_link="/auth/signup"
+      to_question="Don't have any account ?"
+      to_text="Sign Up"
     >
       <Form {...LoginForm}>
         <form
@@ -74,8 +91,12 @@ const LoginPage = () => {
               </Fragment>
             )}
           ></FormField>
-
-          <AuthSubmitBtn text="Login" />
+          <div className="flex items-center justify-end my-1 text-sm text-zinc-400 hover:text-zinc-500">
+            <Link href={"/auth/forgot-password"}>
+              <span>forgot your password ?</span>
+            </Link>
+          </div>
+          <AuthSubmitBtn text="Login" loading={isPending} />
           <AuthSocial />
         </form>
       </Form>

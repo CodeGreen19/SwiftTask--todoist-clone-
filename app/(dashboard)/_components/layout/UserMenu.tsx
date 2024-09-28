@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   DropdownMenu,
@@ -8,16 +9,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
+
+import { IoChevronDownOutline } from "react-icons/io5";
+import { logoutAction } from "@/actions/auth";
 const UserMenu = () => {
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger className="outline-none ring-transparent">
-          <Avatar className="size-7">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <div className="flex items-center hover:bg-slate-100 rounded-md p-2 justify-center gap-2 text-sm">
+            <Avatar className="size-7">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="flex gap-1 items-center">
+              shoubj <IoChevronDownOutline />
+            </div>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mx-3">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -25,7 +33,12 @@ const UserMenu = () => {
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem>Billing</DropdownMenuItem>
           <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-red-500"
+            onClick={() => logoutAction()}
+          >
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

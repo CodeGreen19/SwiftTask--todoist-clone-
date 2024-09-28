@@ -1,11 +1,21 @@
-import React from "react";
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
 
 const InboxPage = () => {
+  const { status, data, update } = useSession();
+
+  useEffect(() => {
+    update();
+  }, []);
   return (
     <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad non quas
-      itaque repellendus quod atque omnis magnam dolores quidem. Ea, quae minima
-      nisi laudantium ab magnam non eveniet neque recusandae!
+      Welcome to Dashboard !
+      <div>
+        {status === "loading" ? "loading..." : data?.user?.email ?? "null"}
+      </div>
     </div>
   );
 };

@@ -5,14 +5,33 @@ import { AuthInput } from "../_components/AuthInput";
 import AuthSocial from "../_components/AuthSocial";
 import AuthWrapper from "../_components/AuthWrapper";
 
-import { Button } from "@/components/ui/button";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { SignUpSchema, SignUpSchemaType } from "@/schema/auth";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { signUpAction } from "@/actions/auth";
+import AuthSubmitBtn from "../_components/AuthSubmitBtn";
+
+import { toast } from "sonner";
+import { showToast } from "@/components/shared/toast";
 
 const SignUpPage = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: signUpAction,
+    onSuccess: ({ error, message }) => {
+      if (error) {
+        signUpForm.reset();
+        return showToast("error", error);
+      }
+      if (message) {
+        showToast("success", message);
+        signUpForm.reset();
+      }
+    },
+  });
+  //form
   const signUpForm = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -22,13 +41,14 @@ const SignUpPage = () => {
     },
   });
 
-  const onSubmit = (value: SignUpSchemaType) => {
-    console.log(value);
+  const onSubmit = (info: SignUpSchemaType) => {
+    mutate(info);
   };
+
   return (
     <AuthWrapper
       type="Sign Up"
-      caption="Enter your credentials to login"
+      caption="Enter your credentials to Sign Up"
       imageUrl="signUp image"
       to_link="/auth/login"
       to_question="Aleary have an account?"
@@ -37,7 +57,7 @@ const SignUpPage = () => {
       <Form {...signUpForm}>
         <form
           className="grid gap-2 w-full"
-          onSubmit={signUpForm.handleSubmit(onSubmit)}
+          onSubmit={signUpForm.handleSubmit((info) => onSubmit(info))}
         >
           <FormField
             control={signUpForm.control}
@@ -85,9 +105,7 @@ const SignUpPage = () => {
             )}
           ></FormField>
 
-          <Button type="submit" size={"auth"} variant={"auth"}>
-            Login
-          </Button>
+          <AuthSubmitBtn text="Sign Up" loading={isPending} />
           <AuthSocial />
         </form>
       </Form>

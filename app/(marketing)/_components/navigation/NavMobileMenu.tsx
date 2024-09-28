@@ -60,12 +60,16 @@ const NavMobileMenu = () => {
       </ul>
       <Separator className="my-4" />
       <div className="grid grid-cols-2 gap-2 ">
-        <Button className="py-6" variant={"secondary"}>
-          Log in
-        </Button>
-        <Button className="p-6 hover:bg-signature bg-signature text-bl">
-          Start for free{" "}
-        </Button>
+        <Link href={"/auth/login"}>
+          <Button className="py-6 w-full" variant={"secondary"}>
+            Log in
+          </Button>
+        </Link>
+        <Link href={"/auth/signup"}>
+          <Button className="p-6 w-full hover:bg-signature bg-signature text-bl">
+            Start for free{" "}
+          </Button>
+        </Link>
       </div>
     </div>
   );
