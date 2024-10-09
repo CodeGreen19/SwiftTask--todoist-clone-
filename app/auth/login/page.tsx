@@ -5,7 +5,6 @@ import { AuthInput } from "../_components/AuthInput";
 import AuthSocial from "../_components/AuthSocial";
 import AuthWrapper from "../_components/AuthWrapper";
 
-import { Button } from "@/components/ui/button";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { LoginSchema, LoginSchemaType } from "@/schema/auth";
 

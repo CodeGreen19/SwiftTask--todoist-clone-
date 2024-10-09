@@ -9,7 +9,7 @@ import MobileSideBar from "./_components/layout/MobileSideBar";
 const DashboardLaoyout = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   return (
-    <div>
+    <div className="text-zinc-600">
       <div className="hidden lg:block">
         <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
@@ -20,7 +20,7 @@ const DashboardLaoyout = ({ children }: { children: React.ReactNode }) => {
         )}
       >
         <DashboardNav />
-        <div className="p-4">{children}</div>
+        <div className="p-4 max-w-3xl m-auto">{children}</div>
       </div>
     </div>
   );

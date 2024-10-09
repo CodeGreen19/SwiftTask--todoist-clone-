@@ -9,5 +9,5 @@ export const AUTH_ROUTES = [
   "/auth/forgot-password",
   "/auth/new-password",
 ];
-export const PUBLIC_ROUTES = ["/", "/pricing"];
+export const PUBLIC_ROUTES = ["/", "/pricing", "/privacy", "/feature"];
 export const API_AUTH_PREFIX = "/api/auth";
