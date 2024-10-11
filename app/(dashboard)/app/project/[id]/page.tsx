@@ -1,18 +1,18 @@
 "use client";
-import {
-  getAllTasksByProjectName,
-  getSingleProjectIdByName,
-} from "@/actions/todo/project";
+import { getAllTasksByProjectName } from "@/actions/todo/project";
 import AddTaskSections from "@/app/(dashboard)/_components/inbox/AddTaskSections";
 import Heading from "@/app/(dashboard)/_components/shared/Heading";
 import SectionAddBox from "@/app/(dashboard)/_components/shared/sectionBox/SectionAddBox";
+import SectionShowBox from "@/app/(dashboard)/_components/shared/sectionBox/SectionShowBox";
 import { useProjectDetail } from "@/app/(dashboard)/_hooks/useProjectDetail";
 import { useQuery } from "@tanstack/react-query";
-import SectionShowBox from "../../_components/shared/sectionBox/SectionShowBox";
 
-const ProjectShowPage = () => {
+const ProjectShowPage = ({ params }: { params: { id: string } }) => {
   // get params data
-  const projectName = "inbox";
+  const decode = decodeURIComponent(params.id);
+  const info = decode.split("-");
+  const projectName = info[0];
+  const projectId = info[1];
   // hooks
   const {
     setSelectedProjectName,
@@ -22,32 +22,22 @@ const ProjectShowPage = () => {
     setSelectedProjectSections,
   } = useProjectDetail();
 
-  // query the id
-  const { data: idData, isPending: IdPending } = useQuery({
-    queryKey: ["inbox"],
-    queryFn: async () => {
-      const info = await getSingleProjectIdByName("inbox");
-      return info;
-    },
-  });
   // query the data
   const { isPending, data } = useQuery({
-    queryKey: [idData?.id || "projects-by-id"],
+    queryKey: [projectId],
     queryFn: async () => {
       setSelectedProjectName(projectName);
-      if (idData?.id) {
-        setSelectedProjectId(idData.id);
-      }
+      setSelectedProjectId(projectId);
       setSelectedProjectToHightlight(projectName);
       const data = await getAllTasksByProjectName(projectName);
-      // for showing sections
+      // for selecting sections
       const projectSections = data.projects?.filter(
-        (item) => item.id === idData?.id
+        (item) => item.id === projectId
       );
       if (projectSections) {
         setSelectedProjectSections(projectSections[0].sections);
       }
-      // set projects
+      // for nav
       const info = data?.projects?.map((item) => {
         return {
           name: item.projectName,
@@ -57,9 +47,8 @@ const ProjectShowPage = () => {
       setProjects(info!);
       return data;
     },
-    enabled: idData?.id ? true : false,
   });
-  if (isPending || IdPending) {
+  if (isPending) {
     return <div>loading...</div>;
   }
 

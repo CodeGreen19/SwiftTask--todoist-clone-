@@ -1,4 +1,3 @@
-import { FaCircleArrowDown } from "react-icons/fa6";
 import { CiHashtag, CiSearch, CiStar } from "react-icons/ci";
 import { HiOutlineInbox } from "react-icons/hi2";
 import { GoDiscussionOutdated, GoSignOut } from "react-icons/go";
@@ -17,6 +16,7 @@ import { IoGiftOutline, IoHelp, IoSettingsOutline } from "react-icons/io5";
 import { BsActivity, BsClipboardData } from "react-icons/bs";
 import { LiaSyncAltSolid } from "react-icons/lia";
 import { VscInsert } from "react-icons/vsc";
+import { IconType } from "react-icons/lib";
 
 export const dashboardNavArr = [
   { icon: CiSearch, tag: "Search", link: "/app/search" },
@@ -31,7 +31,7 @@ export const dashboardNavArr = [
 ];
 
 type PriorityType = {
-  icon: any;
+  icon: IconType;
   text: string;
   className: string;
   value: "P1" | "P2" | "P3" | "P4";

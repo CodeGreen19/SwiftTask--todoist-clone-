@@ -1,26 +1,18 @@
 "use client";
 
-import React, { useRef } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useAddTask } from "@/app/(dashboard)/_hooks/useAddText";
 import { Calendar } from "@/components/ui/calendar";
-import { IoTodayOutline } from "react-icons/io5";
-import { CiLight } from "react-icons/ci";
-import { MdDoNotDisturb, MdOutlineWeekend } from "react-icons/md";
-import { format } from "date-fns";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { useAddTask } from "@/app/(dashboard)/_hooks/useAddText";
+import { format } from "date-fns";
+import React, { useRef } from "react";
+import { CiLight } from "react-icons/ci";
+import { IoTodayOutline } from "react-icons/io5";
+import { MdDoNotDisturb, MdOutlineWeekend } from "react-icons/md";
 import { nextDay, nextWeek, today } from "../../data/dateData";
 
 const datePickerArr = [

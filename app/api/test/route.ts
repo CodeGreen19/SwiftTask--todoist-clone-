@@ -1,4 +1,3 @@
-import { redirect, permanentRedirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

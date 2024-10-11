@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { IoOptionsOutline } from "react-icons/io5";
 import { BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
 import MobileSideBar from "./MobileSideBar";
 import { CiCircleList } from "react-icons/ci";

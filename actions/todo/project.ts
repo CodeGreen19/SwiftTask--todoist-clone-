@@ -41,3 +41,43 @@ export const deleteProject = async (id: string) => {
     return { error: "error" };
   }
 };
+
+//get project data
+
+export const getAllTasksByProjectName = async (name: string) => {
+  try {
+    let user = await auth();
+
+    let tasks = await prisma.todo.findMany({
+      where: { projectName: name, userId: user?.user?.id },
+    });
+    let projects = await prisma.project.findMany({
+      where: { userId: user?.user?.id },
+    });
+    return { tasks, projects };
+  } catch (error) {
+    return { error: "error" };
+  }
+};
+export const getSingleProjectIdByName = async (name: string) => {
+  try {
+    let user = await auth();
+
+    let project = await prisma.project.findFirst({
+      where: { userId: user?.user?.id, projectName: name },
+    });
+    if (!project) {
+      let info = await prisma.project.create({
+        data: {
+          userId: user?.user?.id!,
+          projectName: name,
+          hashColor: "text-gray-500",
+        },
+      });
+      return { id: info.id };
+    }
+    return { id: project?.id };
+  } catch (error) {
+    return { error: "error" };
+  }
+};

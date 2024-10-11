@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useTransition } from "react";
+import { Fragment } from "react";
 import { AuthInput } from "../_components/AuthInput";
 import AuthSocial from "../_components/AuthSocial";
 import AuthWrapper from "../_components/AuthWrapper";
@@ -8,16 +8,15 @@ import AuthWrapper from "../_components/AuthWrapper";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { LoginSchema, LoginSchemaType } from "@/schema/auth";
 
+import { LoginAction } from "@/actions/auth";
+import { showToast } from "@/components/shared/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import AuthSubmitBtn from "../_components/AuthSubmitBtn";
-import { useMutation } from "@tanstack/react-query";
-import { LoginAction } from "@/actions/auth";
-import { useSession } from "next-auth/react";
-import { showToast } from "@/components/shared/toast";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { toast } from "sonner";
 
 const LoginPage = () => {
   const { update } = useSession();

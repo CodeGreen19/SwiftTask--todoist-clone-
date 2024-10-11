@@ -1,19 +1,14 @@
 import React from "react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import { proirityArr } from "../../data";
 import { useAddTask } from "@/app/(dashboard)/_hooks/useAddText";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { proirityArr } from "../../data";
 
 const Priority = ({ children }: { children: React.ReactNode }) => {
   const { setPriority } = useAddTask();

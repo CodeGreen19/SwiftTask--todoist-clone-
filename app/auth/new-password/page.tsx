@@ -22,7 +22,7 @@ const NewPassword = () => {
 
   if (!token) {
     showToast("error", "token does'nt exists !");
-    return router.push("/");
+    router.push("/");
   }
   const { mutate, isPending } = useMutation({
     mutationFn: UpdatePasswordAction,
@@ -51,7 +51,9 @@ const NewPassword = () => {
         "new password and confirm password does'nt match !"
       );
     }
-    mutate({ password: value.password, token });
+    if (token) {
+      mutate({ password: value.password, token });
+    }
   };
 
   return (

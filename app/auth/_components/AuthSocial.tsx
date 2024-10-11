@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { AUTH_REDIRECT_URL } from "@/routes";
 import { signIn } from "next-auth/react";
 import React, { Fragment } from "react";
-import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const AuthSocial = () => {

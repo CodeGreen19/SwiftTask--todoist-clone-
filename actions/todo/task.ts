@@ -34,10 +34,23 @@ export const updateTask = async (info: AddTaskType) => {
       return { error: "task not found" };
     }
     delete info.id;
-    console.log(info);
 
     await prisma.todo.update({ where: { id: task.id }, data: info });
 
+    return { message: "updated" };
+  } catch (error) {
+    return { error: "error" };
+  }
+};
+export const taskDoneAndUndone = async ({
+  checked,
+  id,
+}: {
+  id: string;
+  checked: boolean;
+}) => {
+  try {
+    await prisma.todo.update({ where: { id }, data: { isDone: checked } });
     return { message: "updated" };
   } catch (error) {
     return { error: "error" };

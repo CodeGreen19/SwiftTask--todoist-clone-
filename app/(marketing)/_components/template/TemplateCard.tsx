@@ -3,9 +3,6 @@ import React from "react";
 
 const TemplateCard = ({
   title,
-  imageUrl,
-  des,
-  index,
 }: {
   title: string;
   imageUrl: string;

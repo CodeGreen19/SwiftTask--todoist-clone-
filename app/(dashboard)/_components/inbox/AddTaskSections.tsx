@@ -1,42 +1,59 @@
 "use client";
-import React, { useState } from "react";
-import AddTaskBox from "../shared/AddTaskBox";
 import { GoPlus } from "react-icons/go";
-import SectionList from "./addTaskSections/SectionList";
-import { Separator } from "@/components/ui/separator";
-import { AddTaskType } from "@/types/todo";
-import { useEditTask } from "../../_hooks/useEditTask";
-import { useAddTask } from "../../_hooks/useAddText";
+import AddTaskBox from "../shared/AddTaskBox";
 
-const AddTaskSections = ({ tasks }: { tasks: AddTaskType[] }) => {
+import { AddTaskType } from "@/types/todo";
+import { useAddTask } from "../../_hooks/useAddText";
+import { useEditTask } from "../../_hooks/useEditTask";
+import TaskList from "./addTaskSections/TaskList";
+
+const AddTaskSections = ({
+  tasks,
+  sectionName,
+}: {
+  tasks: AddTaskType[];
+  sectionName: string;
+}) => {
   const { editTaskId, setEditTaskId } = useEditTask();
   const { clearTaskInfo, addBoxOpen, setAddBoxOpen } = useAddTask();
 
   const closeTextBox = () => {
-    setAddBoxOpen(false);
+    setAddBoxOpen(null);
   };
   const closeEditTextBox = () => {
     clearTaskInfo();
     setEditTaskId("");
   };
 
+  const filteredTasks = tasks.filter(
+    (item) => item.sectionName === sectionName
+  );
+
   return (
     <div>
       <div>
-        {tasks.map((item, i) =>
-          item.id === editTaskId ? (
-            <div className=" border  w-full mt-1 border-zinc-300 p-2 rounded-lg">
-              <AddTaskBox close={closeEditTextBox} />
-            </div>
-          ) : (
-            <SectionList {...item} key={i} />
-          )
-        )}
+        {filteredTasks
+          .filter((item) => item.isDone === false)
+          .map((item, i) =>
+            item.id === editTaskId ? (
+              <div
+                key={i}
+                className=" border  w-full mt-1 border-zinc-300 p-2 rounded-lg"
+              >
+                <AddTaskBox
+                  sectionName={sectionName}
+                  close={closeEditTextBox}
+                />
+              </div>
+            ) : (
+              <TaskList {...item} key={i} />
+            )
+          )}
       </div>
-      {!addBoxOpen ? (
+      {addBoxOpen !== sectionName ? (
         <div
           className="group p-2 hover:text-amber-500 flex items-center cursor-pointer gap-2 "
-          onClick={() => setAddBoxOpen(true)}
+          onClick={() => setAddBoxOpen(sectionName)}
         >
           <span className="p-[2px] text-amber-500 rounded-full group-hover:text-white group-hover:bg-amber-600">
             <GoPlus className="text-lg" />
@@ -45,9 +62,16 @@ const AddTaskSections = ({ tasks }: { tasks: AddTaskType[] }) => {
         </div>
       ) : (
         <div className=" border w-full mt-1 border-zinc-200 p-2 rounded-lg">
-          <AddTaskBox close={closeTextBox} />
+          <AddTaskBox sectionName={sectionName} close={closeTextBox} />
         </div>
       )}
+      <div className="mt-4">
+        {filteredTasks
+          .filter((item) => item.isDone === true)
+          .map((item, i) => (
+            <TaskList {...item} key={i} />
+          ))}
+      </div>
     </div>
   );
 };

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import StepTextFormat from "../steps/StepTextFormat";
-import SetVideoBox from "../steps/SetVideoBox";
-import { StepsDataInfo } from "../data";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { StepsDataInfo } from "../data";
+import SetVideoBox from "../steps/SetVideoBox";
+import StepTextFormat from "../steps/StepTextFormat";
 
-let data = ["First Video", "Secont Video ", "Third Video ", "Forth Video "];
+const data = ["First Video", "Secont Video ", "Third Video ", "Forth Video "];
 
 const Steps = () => {
   const [showVideo, setShowVideo] = useState<number>(0);
@@ -17,7 +17,7 @@ const Steps = () => {
           {StepsDataInfo.map((item, i) => (
             <motion.div
               viewport={{ amount: "all" }}
-              onViewportEnter={(e) => setShowVideo(i)}
+              onViewportEnter={() => setShowVideo(i)}
               className="min-h-[70vh]"
               key={i}
             >

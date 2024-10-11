@@ -1,33 +1,39 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import { useState } from "react";
 import { CiCircleChevDown, CiCirclePlus, CiHashtag } from "react-icons/ci";
 
-import AddProjectModal from "./projects/AddProjectModal";
-import { useQuery } from "@tanstack/react-query";
 import { myProjects } from "@/actions/todo/project";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { BsThreeDots } from "react-icons/bs";
+import { useAddTask } from "../../_hooks/useAddText";
 import { useProject } from "../../_hooks/useProject";
+import { useProjectDetail } from "../../_hooks/useProjectDetail";
+import AddProjectModal from "./projects/AddProjectModal";
 import EditProject from "./projects/EditProject";
-import ProjectOptions from "./projects/ProjectOptions";
 
 const CalcHeight = (base: number, length: number, each: number) => {
-  let num = base + length * each;
-  let h = `${num}px`;
+  const num = base + length * each + 10;
+  const h = `${num}px`;
   return h;
 };
 
 const Projects = () => {
-  const { setHashColor, setProjectName, setSelectedProjectId } = useProject();
+  const router = useRouter();
   const [open, setOpen] = useState(true);
+  // hooks
+  const { setHashColor, setProjectName, setSelectedProjectId } = useProject();
+  const { setAddBoxOpen } = useAddTask();
+  const { selectedProjectToHightlight } = useProjectDetail();
 
   //get data
 
-  let { data, isPending } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
-      let data = await myProjects();
+      const data = await myProjects();
       return data;
     },
   });
@@ -44,7 +50,7 @@ const Projects = () => {
     <div
       style={
         open
-          ? { height: CalcHeight(40, data?.projects?.length!, 36) }
+          ? { height: CalcHeight(40, data?.projects?.length || 0, 36) }
           : { height: "40px" }
       }
       className={cn(" p-2 overflow-hidden transition-all")}
@@ -62,30 +68,42 @@ const Projects = () => {
         </div>
       </div>
       <ul>
-        {data?.projects?.map((item, i) => (
-          <li
-            key={i}
-            className="p-[6px] group relative hover:bg-zinc-50 rounded-md"
-          >
-            <span className="flex items-center gap-2 justify-start">
-              <CiHashtag className={item.hashColor ?? ""} />
-              {item.projectName}
-            </span>
-            <span className=" group-hover:visible absolute invisible top-2 right-2 cursor-pointer p-1">
-              <EditProject>
-                <span
-                  onClick={() => {
-                    setProjectName(item.projectName);
-                    setHashColor(item.hashColor!);
-                    setSelectedProjectId(item.id);
-                  }}
-                >
-                  <BsThreeDots />
-                </span>
-              </EditProject>
-            </span>
-          </li>
-        ))}
+        {data?.projects
+          ?.filter((item) => item.projectName !== "inbox")
+          .map((item, i) => (
+            <li
+              key={i}
+              className={cn(
+                "p-[6px] cursor-pointer group relative  rounded-md",
+                selectedProjectToHightlight === item.projectName &&
+                  "bg-amber-100"
+              )}
+            >
+              <span
+                onClick={() => {
+                  setAddBoxOpen(null);
+                  router.push(`/app/project/${item.projectName}-${item.id}`);
+                }}
+                className="flex items-center gap-2 justify-start mr-7 "
+              >
+                <CiHashtag className={item.hashColor ?? ""} />
+                {item.projectName}
+              </span>
+              <span className="  group-hover:visible absolute invisible top-2 right-2 cursor-pointer p-1">
+                <EditProject>
+                  <span
+                    onClick={() => {
+                      setProjectName(item.projectName);
+                      setHashColor(item.hashColor!);
+                      setSelectedProjectId(item.id);
+                    }}
+                  >
+                    <BsThreeDots />
+                  </span>
+                </EditProject>
+              </span>
+            </li>
+          ))}
       </ul>
     </div>
   );

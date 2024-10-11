@@ -3,7 +3,7 @@
 import React from "react";
 import Heading from "../../_components/shared/Heading";
 
-const TodayPage = async () => {
+const TodayPage = () => {
   return (
     <div>
       <Heading text="Today" />

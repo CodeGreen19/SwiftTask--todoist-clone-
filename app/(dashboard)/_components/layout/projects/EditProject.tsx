@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
-  DialogOverlay,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -15,16 +14,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import React, { useRef } from "react";
 
-import { Input } from "@/components/ui/input";
-import { projectHashColor } from "../../data";
-import { cn } from "@/lib/utils";
-import { CiHashtag } from "react-icons/ci";
-import CustomBtn from "../../shared/loading/CustomBtn";
-import { ProjectType } from "@/types/todo";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProject, ProjectAction } from "@/actions/todo/project";
 import { useProject } from "@/app/(dashboard)/_hooks/useProject";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { ProjectType } from "@/types/todo";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CiHashtag } from "react-icons/ci";
+import { projectHashColor } from "../../data";
+import CustomBtn from "../../shared/loading/CustomBtn";
 
 const EditProject = ({ children }: { children: React.ReactNode }) => {
   const {
@@ -63,7 +63,7 @@ const EditProject = ({ children }: { children: React.ReactNode }) => {
   });
 
   const hanldeUpdate = () => {
-    let data: ProjectType = {
+    const data: ProjectType = {
       projectName,
       hashColor,
       id: selectedProjectId,

@@ -1,24 +1,21 @@
 "use client";
 
-import React from "react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
   SheetOverlay,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
-import UserMenu from "./UserMenu";
-import SideBarLists from "./sidebar/SideBarLists";
 import { usePathname } from "next/navigation";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import React from "react";
+import { BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
 import { IoNotificationsOutline } from "react-icons/io5";
-import AddTaskBtn from "./sidebar/AddTaskBtn";
 import Projects from "./Projects";
+import UserMenu from "./UserMenu";
+import AddTaskBtn from "./sidebar/AddTaskBtn";
+import SideBarLists from "./sidebar/SideBarLists";
 
 const MobileSideBar = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();

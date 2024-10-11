@@ -3,6 +3,7 @@
 import React from "react";
 import { footerLinks } from "./data";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -13,7 +14,9 @@ const Footer = () => {
             {/* Logo & Description */}
             <div>
               <div className="flex items-center mb-4">
-                <img
+                <Image
+                  height={32}
+                  width={32}
                   src="/logo.svg"
                   alt="Todoist Logo"
                   className="w-8 h-8 mr-2"

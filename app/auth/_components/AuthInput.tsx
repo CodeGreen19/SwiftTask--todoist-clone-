@@ -3,16 +3,16 @@
 import { FormControl, FormLabel, useFormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { LoginSchemaType, SignUpSchemaType } from "@/schema/auth";
 import { useState } from "react";
 import { RxEyeClosed } from "react-icons/rx";
 import { VscEye } from "react-icons/vsc";
 
-type AuthInputType = {
+export type AuthInputType = {
   type: "email" | "text" | "password";
   label: string;
   placeholder: string;
   className?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field: any;
 };
 

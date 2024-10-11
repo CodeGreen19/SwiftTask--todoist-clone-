@@ -1,14 +1,13 @@
 import React from "react";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
+import { IconType } from "react-icons/lib";
 
 const MenuResource = ({
   children,
@@ -16,7 +15,7 @@ const MenuResource = ({
 }: {
   children: React.ReactNode;
   items: {
-    icon: any;
+    icon: IconType;
     text: string;
     visible: boolean;
   }[];

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQuery } from "@/components/shared/ReactQuery";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,7 +44,7 @@ export default function RootLayout({
       >
         <ReactQuery>
           <SessionProvider>
-            {children}
+            <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
             <Toaster
               position="bottom-right"
               className="shadow-sm py-9"

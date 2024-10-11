@@ -1,15 +1,12 @@
-import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddTaskBox from "../../shared/AddTaskBox";
 import { IoAddOutline } from "react-icons/io5";
+import AddTaskBox from "../../shared/AddTaskBox";
 
 const AddTaskBtn = () => {
   return (
@@ -24,7 +21,7 @@ const AddTaskBtn = () => {
       <DialogContent className="bg-white rounded-md w-5/6 drop-shadow-xl md:w-[500px]">
         <DialogTitle></DialogTitle>
         <div className="p-2">
-          <AddTaskBox />
+          <AddTaskBox sectionName="" />
         </div>
       </DialogContent>
     </Dialog>

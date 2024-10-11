@@ -1,8 +1,6 @@
-import React, { Fragment } from "react";
-import { navItems } from "../data";
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { navItems } from "../data";
 import NavMenuResource from "./NavMenuResource";
 
 const NavMenu = () => {

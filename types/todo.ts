@@ -3,6 +3,9 @@ export type AddTaskType = {
   id?: string;
   task: string;
   desc: string | null;
+  isDone?: boolean;
+  projectName: string;
+  sectionName: string | null;
   dueDate: Date | null;
   priority: PriorityType;
   userId?: string;

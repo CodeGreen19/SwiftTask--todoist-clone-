@@ -1,34 +1,35 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { Separator } from "@/components/ui/separator";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 
-import TextareaAutosize from "react-textarea-autosize";
-import Priority from "./addTaskBox/Priority";
-import DueDate from "./addTaskBox/DueDate";
-import Reminders from "./addTaskBox/Reminders";
-import TaskBoxBottomBox from "./addTaskBox/TaskBoxBottomBox";
-import { GoDiscussionOutdated } from "react-icons/go";
-import { MdLabelImportantOutline } from "react-icons/md";
-import { CiAlarmOn } from "react-icons/ci";
-import { RxCross1, RxCross2 } from "react-icons/rx";
-import { RiSendPlane2Fill } from "react-icons/ri";
-import { useAddTask } from "../../_hooks/useAddText";
-import { format } from "date-fns";
-import { CrossIcon } from "lucide-react";
+import { AddTask, updateTask } from "@/actions/todo/task";
 import { cn } from "@/lib/utils";
 import { AddTaskType } from "@/types/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AddTask, updateTask } from "@/actions/todo/task";
+import { format } from "date-fns";
+import { CiAlarmOn } from "react-icons/ci";
+import { FaSortDown } from "react-icons/fa";
+import { GoDiscussionOutdated } from "react-icons/go";
+import { MdLabelImportantOutline } from "react-icons/md";
+import { RiSendPlane2Fill } from "react-icons/ri";
+import { RxCross1, RxCross2 } from "react-icons/rx";
+import TextareaAutosize from "react-textarea-autosize";
+import { useAddTask } from "../../_hooks/useAddText";
 import { useEditTask } from "../../_hooks/useEditTask";
+import { useProjectDetail } from "../../_hooks/useProjectDetail";
 import { nextDay, today } from "../data/dateData";
+import DueDate from "./addTaskBox/DueDate";
+import Priority from "./addTaskBox/Priority";
+import TaskBoxBottomBox from "./addTaskBox/TaskBoxBottomBox";
+import CustomBtn from "./loading/CustomBtn";
 
 type AddTaskBoxType = {
   close?: () => void;
+  sectionName: string | null;
 };
 
-const AddTaskBox = ({ close }: AddTaskBoxType) => {
+const AddTaskBox = ({ close, sectionName }: AddTaskBoxType) => {
   const {
     dueDate,
     setDueDate,
@@ -40,34 +41,40 @@ const AddTaskBox = ({ close }: AddTaskBoxType) => {
     taskName,
     clearTaskInfo,
   } = useAddTask();
+  const { selectedProjectName, selectedProjectId } = useProjectDetail();
 
   const queryClient = useQueryClient();
   const { editTaskId, setEditTaskId } = useEditTask();
   // mutation for create
-  const { mutate } = useMutation({
+  const { mutate, isPending: create_pending } = useMutation({
     mutationFn: AddTask,
     onSuccess: ({ message, error }) => {
       if (error) alert(error);
       if (message) {
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        queryClient.invalidateQueries({
+          queryKey: [selectedProjectId],
+        });
       }
     },
   });
   // mutate for update
-  const { mutate: updateMutate } = useMutation({
+  const { mutate: updateMutate, isPending: update_pending } = useMutation({
     mutationFn: updateTask,
     onSuccess: ({ message, error }) => {
       if (error) alert(error);
       if (message) {
         setEditTaskId("");
-        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        queryClient.invalidateQueries({ queryKey: [selectedProjectId] });
       }
     },
   });
 
   const hanldeSubmit = () => {
-    let data: AddTaskType = {
+    const data: AddTaskType = {
       id: editTaskId,
+
+      projectName: selectedProjectName,
+      sectionName: sectionName === null ? "" : sectionName,
       task: taskName,
       desc: taskDescription,
       dueDate: dueDate,
@@ -174,8 +181,11 @@ const AddTaskBox = ({ close }: AddTaskBoxType) => {
       <Separator />
       <div className="w-full flex items-center justify-between p-2">
         <TaskBoxBottomBox>
-          <div className="px-3 py-[7px] text-sm rounded-md hover:bg-zinc-100">
-            inbox
+          <div className="px-3 py-[7px] flex gap-1  text-sm rounded-md bg-zinc-100 transition-all hover:bg-zinc-200">
+            <span>{selectedProjectName}</span>
+            <span className="">
+              <FaSortDown />
+            </span>
           </div>
         </TaskBoxBottomBox>
         <div className="flex gap-2">
@@ -191,16 +201,17 @@ const AddTaskBox = ({ close }: AddTaskBoxType) => {
             <RxCross1 className="sm:hidden" />{" "}
             <span className="hidden sm:block">Cancel</span>
           </Button>
-          <Button
+          <CustomBtn
             className="bg-amber-600 text-white hover:bg-amber-700"
-            disabled={taskName.length === 0 ? true : false}
+            isPending={create_pending || update_pending}
+            disable={taskName.length === 0 ? true : false}
             onClick={hanldeSubmit}
           >
             <RiSendPlane2Fill className="sm:hidden text-white" />{" "}
             <span className="hidden sm:block">
               {editTaskId ? "Update" : "Add task"}
             </span>
-          </Button>
+          </CustomBtn>
         </div>
       </div>
     </div>

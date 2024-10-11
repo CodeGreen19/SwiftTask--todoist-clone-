@@ -3,11 +3,9 @@ import { LoginAction } from "@/actions/auth";
 import { VarificationTokenAction } from "@/actions/varifyToken";
 import { showToast } from "@/components/shared/toast";
 import { cn } from "@/lib/utils";
-import { AUTH_REDIRECT_URL } from "@/routes";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const NewVarification = () => {
@@ -19,19 +17,18 @@ const NewVarification = () => {
   if (!token) {
     showToast("error", "Missing token !");
     router.push("/");
-    return;
   }
   // query the data
-  const { data } = useQuery({
+  const {} = useQuery({
     queryKey: ["varification-token"],
     queryFn: async () => {
-      let data = await VarificationTokenAction(token);
+      const data = await VarificationTokenAction(token!);
       if (data.error) {
         showToast("error", data.error);
         router.push("/");
       }
       if (data.message) {
-        let { error, message } = await LoginAction({
+        const { error, message } = await LoginAction({
           email: data.email!,
           password: data.password!,
         });

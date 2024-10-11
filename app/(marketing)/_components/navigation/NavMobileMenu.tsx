@@ -1,11 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useToggleNav } from "@/hooks/useToggleNav";
 import { cn } from "@/lib/utils";
-import React, { Fragment, useState } from "react";
-import { navItems } from "../data";
 import Link from "next/link";
-import { IoChevronUp, IoChevronDown } from "react-icons/io5";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+import { Fragment } from "react";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { navItems } from "../data";
 
 const NavMobileMenu = () => {
   const { open, setResourceOpen, resourceOpen } = useToggleNav();

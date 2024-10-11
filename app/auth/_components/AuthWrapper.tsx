@@ -1,15 +1,6 @@
-import React from "react";
 import Logo from "@/app/(marketing)/_components/navigation/Logo";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { AuthInput } from "./AuthInput";
-
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import AuthSocial from "./AuthSocial";
-import Image from "next/image";
+import React from "react";
 
 type AuthWrapperType = {
   type: "Login" | "Sign Up" | "Forgot Password" | "Reset Password";

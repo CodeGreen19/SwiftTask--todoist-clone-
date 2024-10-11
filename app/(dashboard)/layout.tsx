@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import SideBar from "./_components/layout/SideBar";
 import DashboardNav from "./_components/layout/DashboardNav";
-import MobileSideBar from "./_components/layout/MobileSideBar";
 
 const DashboardLaoyout = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);

@@ -8,13 +8,12 @@ import AuthWrapper from "../_components/AuthWrapper";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { SignUpSchema, SignUpSchemaType } from "@/schema/auth";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 import { signUpAction } from "@/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import AuthSubmitBtn from "../_components/AuthSubmitBtn";
 
-import { toast } from "sonner";
 import { showToast } from "@/components/shared/toast";
 
 const SignUpPage = () => {
