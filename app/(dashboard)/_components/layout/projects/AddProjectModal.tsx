@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { ProjectAction } from "@/actions/todo/project";
 import { useProject } from "@/app/(dashboard)/_hooks/useProject";
@@ -34,13 +34,23 @@ const AddProjectModal = ({ children }: { children: React.ReactNode }) => {
     setProjectName,
     clearProjectInfo,
   } = useProject();
+  const [boxMessage, setBoxMessage] = useState<string>("");
+
   const dialogTriggerRef = useRef<HTMLButtonElement | null>(null);
   const queryClient = useQueryClient();
   // create project
 
   const { isPending, mutate } = useMutation({
     mutationFn: ProjectAction,
-    onSuccess: ({ message }) => {
+    onSuccess: ({ message, BoxMessage: b_message }) => {
+      if (b_message) {
+        setBoxMessage(b_message);
+        setTimeout(() => {
+          setBoxMessage("");
+        }, 5000);
+
+        return;
+      }
       if (message) {
         clearProjectInfo();
         queryClient.invalidateQueries({ queryKey: ["projects"] });
@@ -51,27 +61,32 @@ const AddProjectModal = ({ children }: { children: React.ReactNode }) => {
 
   const handleCreate = () => {
     const data: ProjectType = {
-      projectName,
+      projectName: projectName.trim(),
       hashColor,
     };
     mutate(data);
   };
 
   const defaultColor = projectHashColor.find(
-    (item) => item.colorCode === hashColor
+    (item) => item.colorCode === hashColor,
   )!;
 
   return (
     <div>
       <Dialog>
         <DialogOverlay className="" />
-        <DialogTrigger className="flex items-center">{children}</DialogTrigger>
-        <DialogContent className="bg-white rounded-lg p-4 w-4/5 md:w-[400px] drop-shadow-lg">
+        <DialogTrigger className="flex items-center dark:text-purple-500">
+          {children}
+        </DialogTrigger>
+        <DialogContent className="w-4/5 rounded-lg bg-white p-4 drop-shadow-lg md:w-[400px]">
           <DialogHeader>
             <DialogTitle className="text-start text-zinc-600">
               Create New Project
             </DialogTitle>
             <DialogDescription className="space-y-2 text-start">
+              {boxMessage && (
+                <p className="my-1 text-xs text-red-500">{boxMessage}</p>
+              )}
               <div>
                 <h1 className="my-2">Project Name</h1>
                 <Input
@@ -97,13 +112,13 @@ const AddProjectModal = ({ children }: { children: React.ReactNode }) => {
                   {projectHashColor.map((item) => (
                     <SelectItem
                       className={cn(
-                        `flex items-center w-full justify-start p-2 rounded-md hover:bg-amber-50 cursor-pointer  hover:${item.colorCode}`,
-                        item.colorCode
+                        `flex w-full cursor-pointer items-center justify-start rounded-md p-2 hover:bg-amber-50 hover:${item.colorCode}`,
+                        item.colorCode,
                       )}
                       value={item.colorCode}
                       key={item.name}
                     >
-                      <div className="flex items-center gap-2 ">
+                      <div className="flex items-center gap-2">
                         <item.icon /> <span>{item.name}</span>
                       </div>
                     </SelectItem>
@@ -111,10 +126,10 @@ const AddProjectModal = ({ children }: { children: React.ReactNode }) => {
                 </SelectContent>
               </Select>
 
-              <div className="flex items-center gap-1 justify-end ">
+              <div className="flex items-center justify-end gap-1">
                 <DialogTrigger ref={dialogTriggerRef}>
                   <div
-                    className="p-4 py-2 rounded-md bg-zinc-100"
+                    className="rounded-md bg-zinc-100 p-4 py-2"
                     onClick={clearProjectInfo}
                   >
                     Cancel

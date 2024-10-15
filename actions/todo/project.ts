@@ -7,6 +7,20 @@ import { ProjectType } from "@/types/todo";
 export const ProjectAction = async (projectInfo: ProjectType) => {
   try {
     let user = await auth();
+
+    let isExistName = await prisma.project.findFirst({
+      where: {
+        userId: user?.user?.id,
+        projectName: projectInfo.projectName,
+      },
+    });
+    if (isExistName) {
+      return {
+        BoxMessage: `"${projectInfo.projectName}" is already exist , try diffrent one !`,
+      };
+    }
+
+    // extract the data
     let info = { ...projectInfo, userId: user?.user?.id! };
     if (!projectInfo.id) {
       // create project
@@ -35,7 +49,17 @@ export const myProjects = async () => {
 };
 export const deleteProject = async (id: string) => {
   try {
+    const user = await auth();
+    const project = await prisma.project.findUnique({ where: { id } });
+    if (!project) {
+      return { error: "project not found !" };
+    }
     await prisma.project.delete({ where: { id } });
+    // delete the project todos
+
+    await prisma.todo.deleteMany({
+      where: { userId: user?.user?.id, projectName: project.projectName },
+    });
     return { message: "deleted" };
   } catch (error) {
     return { error: "error" };

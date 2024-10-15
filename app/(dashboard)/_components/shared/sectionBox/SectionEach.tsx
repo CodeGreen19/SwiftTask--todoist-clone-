@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import AddTaskSections from "../../inbox/AddTaskSections";
+import { useSectionAdd } from "@/app/(dashboard)/_hooks/useSectionAdd";
+import SectionNameEditModal from "./SectionNameEditModal";
+import EditSectionBox from "./editBox/EditSectionBox";
 
 const SectionEach = ({
   name,
@@ -13,6 +16,7 @@ const SectionEach = ({
   tasks: AddTaskType[];
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { setSectionName, setTaskCount } = useSectionAdd();
 
   return (
     <div>
@@ -27,11 +31,19 @@ const SectionEach = ({
           >
             <GoChevronDown />
           </span>
-          <span>{name}</span>
+          <SectionNameEditModal oldName={name}>
+            <span onClick={() => setSectionName(name)}>{name}</span>
+          </SectionNameEditModal>
         </span>
-        <span>
-          <BsThreeDots />
-        </span>
+        <EditSectionBox oldName={name}>
+          <BsThreeDots
+            onClick={() =>
+              setTaskCount(
+                tasks.filter((item) => item.sectionName === name).length
+              )
+            }
+          />
+        </EditSectionBox>
       </h1>
       <div
         className={cn(

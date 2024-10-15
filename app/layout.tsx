@@ -5,6 +5,7 @@ import { ReactQuery } from "@/components/shared/ReactQuery";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
+import ThemeWrapper from "@/components/shared/ThemeWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,16 +39,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ colorScheme: " dark;" }}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${logoFont.variable} ${mainFonot.variable} font-main antialiased`}
+        className={` ${geistSans.variable} ${geistMono.variable} ${logoFont.variable} ${mainFonot.variable} font-main antialiased dark:bg-neutral-800`}
       >
         <ReactQuery>
           <SessionProvider>
-            <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+            <ThemeWrapper>
+              <Suspense fallback={<div>loading...</div>}>{children}</Suspense>
+            </ThemeWrapper>
             <Toaster
               position="bottom-right"
-              className="shadow-sm py-9"
+              className="py-9 shadow-sm"
               theme="light"
             />
           </SessionProvider>

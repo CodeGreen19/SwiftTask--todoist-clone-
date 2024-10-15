@@ -1,22 +1,26 @@
 import { CiHashtag, CiSearch, CiStar } from "react-icons/ci";
 import { HiOutlineInbox } from "react-icons/hi2";
-import { GoDiscussionOutdated, GoSignOut } from "react-icons/go";
+import { GoDiscussionOutdated, GoGear, GoSignOut } from "react-icons/go";
 import {
   PiFilmSlateThin,
   PiKeyboardLight,
   PiLightbulbThin,
+  PiPaperPlaneRight,
 } from "react-icons/pi";
 import { RiColorFilterLine, RiGuideLine } from "react-icons/ri";
 import {
   MdKeyboardArrowRight,
   MdLabelImportant,
   MdLabelImportantOutline,
+  MdManageAccounts,
 } from "react-icons/md";
 import { IoGiftOutline, IoHelp, IoSettingsOutline } from "react-icons/io5";
 import { BsActivity, BsClipboardData } from "react-icons/bs";
 import { LiaSyncAltSolid } from "react-icons/lia";
 import { VscInsert } from "react-icons/vsc";
 import { IconType } from "react-icons/lib";
+import { SettingArrType } from "./types";
+import { IoIosColorPalette } from "react-icons/io";
 
 export const dashboardNavArr = [
   { icon: CiSearch, tag: "Search", link: "/app/search" },
@@ -142,4 +146,26 @@ export const projectHashColor = [
   { name: "Indigo", icon: CiHashtag, colorCode: "text-indigo-500" },
   { name: "Orange", icon: CiHashtag, colorCode: "text-orange-500" },
   { name: "Teal", icon: CiHashtag, colorCode: "text-teal-500" },
+];
+
+export const SHOW_COMPLETED_TASK = "showCompletedTask";
+
+// settings
+export const SettingsOptions: SettingArrType[] = [
+  {
+    name: "Account",
+    icon: MdManageAccounts,
+  },
+  {
+    name: "General",
+    icon: GoGear,
+  },
+  {
+    name: "Subscription",
+    icon: PiPaperPlaneRight,
+  },
+  {
+    name: "Theme",
+    icon: IoIosColorPalette,
+  },
 ];

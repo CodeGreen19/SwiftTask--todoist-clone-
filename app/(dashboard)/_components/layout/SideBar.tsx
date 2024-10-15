@@ -20,20 +20,20 @@ const SideBar = ({
   return (
     <div
       className={cn(
-        "w-[280px] transition-all duration-500 fixed top-0 left-0 h-screen bg-amber-50/70",
-        isOpen ? "translate-x-0" : "-translate-x-full"
+        "fixed left-0 top-0 h-screen w-[280px] bg-amber-50/70 transition-all duration-500",
+        isOpen ? "translate-x-0" : "-translate-x-full",
       )}
     >
       <div className="flex items-center justify-between p-3">
         <UserMenu />
-        <div className="flex items-center justify-center gap-2 mr-2">
-          <span className="p-2 text-lg rounded-md hover:bg-zinc-100">
+        <div className="mr-2 flex items-center justify-center gap-2">
+          <span className="rounded-md p-2 text-lg hover:bg-zinc-100">
             <IoIosNotificationsOutline className="" />
           </span>
           <span
             className={cn(
-              "transition-all  duration-500 p-2 cursor-pointer text-lg rounded-md hover:bg-zinc-100",
-              isOpen ? "translate-x-0" : "translate-x-14"
+              "cursor-pointer rounded-md p-2 text-lg transition-all duration-500 hover:bg-zinc-100",
+              isOpen ? "translate-x-0" : "translate-x-14",
             )}
             onClick={() => setIsOpen(!isOpen)}
           >

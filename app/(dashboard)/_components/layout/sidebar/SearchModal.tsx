@@ -14,7 +14,7 @@ const SearchModal = ({ children }: { children: React.ReactNode }) => {
     <Dialog>
       <DialogOverlay className="bg-transparent" />
       <DialogTrigger className="w-full">{children}</DialogTrigger>
-      <DialogContent className="bg-white rounded-md  w-5/6 md:w-[500px] ">
+      <DialogContent className="w-5/6 rounded-md bg-white md:w-[500px]">
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>

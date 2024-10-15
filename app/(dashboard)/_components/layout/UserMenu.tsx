@@ -10,26 +10,37 @@ import { GiCheckeredFlag } from "react-icons/gi";
 
 import { IoChevronDownOutline } from "react-icons/io5";
 import { userMenuItems } from "../data";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import MenuResource from "./userMenu/MenuResource";
 import { logoutAction } from "@/actions/auth";
+import { useSession } from "next-auth/react";
+import Settings from "./settings/Settings";
 const UserMenu = () => {
+  const { data } = useSession();
+  const settingRef = useRef<HTMLSpanElement | null>(null);
+
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger className="outline-none ring-transparent">
-          <div className="flex items-center hover:bg-slate-100 rounded-md p-1 justify-center gap-2 text-sm">
-            <Avatar className="size-7">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="flex gap-1 items-center">
-              shoubj <IoChevronDownOutline />
+          <div className="flex items-center justify-center gap-2 rounded-md p-1 text-sm hover:bg-slate-100">
+            {data?.user?.image ? (
+              <Avatar className="size-7">
+                <AvatarImage src={data.user.image} alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            ) : (
+              <div className="mx-1 flex size-7 items-center justify-center rounded-full bg-zinc-300 font-bold">
+                {data?.user?.name?.slice(0, 1)}
+              </div>
+            )}
+            <div className="flex items-center gap-1">
+              {data?.user?.name} <IoChevronDownOutline />
             </div>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mx-3 text-sm min-w-[280px] p-2 overflow-visible">
-          <div className="flex p-2  items-center justify-between">
+        <DropdownMenuContent className="mx-3 min-w-[280px] overflow-visible p-2 text-sm">
+          <div className="flex items-center justify-between p-2">
             <div className="flex items-center justify-start gap-2">
               <span className="text-lg text-amber-600">
                 <GiCheckeredFlag />
@@ -42,7 +53,7 @@ const UserMenu = () => {
             <span className="text-zinc-500">O then P</span>
           </div>
           <Separator />
-          <div>
+          <div className="">
             {userMenuItems.map(({ sec }, i) => (
               <Fragment key={i}>
                 <ul className="">
@@ -50,9 +61,13 @@ const UserMenu = () => {
                     <li
                       key={i}
                       onClick={async () =>
-                        item.text === "Logout" ? await logoutAction() : ""
+                        item.text === "Logout"
+                          ? await logoutAction()
+                          : item.text === "Settings"
+                            ? settingRef.current?.click()
+                            : ""
                       }
-                      className=" group flex p-2 items-center justify-between hover:bg-zinc-100 rounded-md cursor-pointer"
+                      className="group flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-zinc-100"
                     >
                       <div className="flex items-center justify-start gap-2">
                         <span>
@@ -77,6 +92,10 @@ const UserMenu = () => {
               </Fragment>
             ))}
           </div>
+          {/* for settings  */}
+          <Settings>
+            <span ref={settingRef}></span>
+          </Settings>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

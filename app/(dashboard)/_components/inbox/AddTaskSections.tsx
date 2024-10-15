@@ -6,6 +6,7 @@ import { AddTaskType } from "@/types/todo";
 import { useAddTask } from "../../_hooks/useAddText";
 import { useEditTask } from "../../_hooks/useEditTask";
 import TaskList from "./addTaskSections/TaskList";
+import { useTheme } from "../../_hooks/useTheme";
 
 const AddTaskSections = ({
   tasks,
@@ -16,6 +17,7 @@ const AddTaskSections = ({
 }) => {
   const { editTaskId, setEditTaskId } = useEditTask();
   const { clearTaskInfo, addBoxOpen, setAddBoxOpen } = useAddTask();
+  const { showCompletedTask } = useTheme();
 
   const closeTextBox = () => {
     setAddBoxOpen(null);
@@ -65,13 +67,15 @@ const AddTaskSections = ({
           <AddTaskBox sectionName={sectionName} close={closeTextBox} />
         </div>
       )}
-      <div className="mt-4">
-        {filteredTasks
-          .filter((item) => item.isDone === true)
-          .map((item, i) => (
-            <TaskList {...item} key={i} />
-          ))}
-      </div>
+      {showCompletedTask && (
+        <div className="mt-4">
+          {filteredTasks
+            .filter((item) => item.isDone === true)
+            .map((item, i) => (
+              <TaskList {...item} key={i} />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

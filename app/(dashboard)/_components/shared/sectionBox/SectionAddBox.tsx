@@ -8,42 +8,52 @@ import SectionLine from "../SectionLine";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addSection } from "@/actions/todo/section";
 import { useProjectDetail } from "@/app/(dashboard)/_hooks/useProjectDetail";
-
 const SectionAddBox = () => {
   const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [boxMessage, setBoxMessage] = useState<string>("");
+  const [sectionName, setSectionName] = useState("");
+
   const { selectedProjectId } = useProjectDetail();
 
   // create section
   const { mutate, isPending } = useMutation({
     mutationFn: addSection,
-    onSuccess: () => {
+    onSuccess: ({ BoxMessage: message }) => {
+      if (message) {
+        setBoxMessage(message);
+        setTimeout(() => {
+          setBoxMessage("");
+        }, 5000);
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: [selectedProjectId] });
-      setIsOpen(false);
+      setOpen(false);
     },
   });
 
   const onsubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setName("");
-    mutate({ name, projectId: selectedProjectId });
+    setSectionName("");
+    mutate({ name: sectionName, projectId: selectedProjectId });
   };
   return (
     <Fragment>
-      {!isOpen ? (
-        <div onClick={() => setIsOpen(true)}>
+      {!open ? (
+        <div onClick={() => setOpen(true)}>
           <SectionLine />
         </div>
       ) : (
         <form
-          className="p-3 mt-2  rounded-md space-y-3 bg-slate-50"
+          className="mt-2 space-y-3 rounded-md bg-slate-50 p-3"
           onSubmit={onsubmit}
         >
+          {boxMessage && <h1 className="text-xs text-red-700">{boxMessage}</h1>}
           <Input
-            value={name}
-            className="bg-white   focus-visible:ring-transparent placeholder:text-zinc-400 font-medium"
-            onChange={(e) => setName(e.target.value)}
+            value={sectionName}
+            autoFocus
+            className="bg-white font-medium placeholder:text-zinc-400 focus-visible:ring-transparent"
+            onChange={(e) => setSectionName(e.target.value)}
             type="text"
             placeholder="Name this section"
           />
@@ -51,14 +61,17 @@ const SectionAddBox = () => {
             <Button
               type="button"
               variant={"secondary"}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                setSectionName("");
+              }}
             >
               cancel
             </Button>
             <CustomBtn
               type="submit"
               isPending={isPending}
-              disable={name.length === 0 ? true : false}
+              disable={sectionName.length === 0 ? true : false}
               className="bg-signature hover:bg-amber-600"
             >
               Add Section

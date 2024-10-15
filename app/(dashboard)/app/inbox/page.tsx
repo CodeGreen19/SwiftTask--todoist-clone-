@@ -30,6 +30,7 @@ const ProjectShowPage = () => {
       return info;
     },
   });
+
   // query the data
   const { isPending, data } = useQuery({
     queryKey: [idData?.id || "projects-by-id"],
@@ -42,7 +43,7 @@ const ProjectShowPage = () => {
       const data = await getAllTasksByProjectName(projectName);
       // for showing sections
       const projectSections = data.projects?.filter(
-        (item) => item.id === idData?.id
+        (item) => item.id === idData?.id,
       );
       if (projectSections) {
         setSelectedProjectSections(projectSections[0].sections);
@@ -59,7 +60,15 @@ const ProjectShowPage = () => {
     },
     enabled: idData?.id ? true : false,
   });
-  if (isPending || IdPending) {
+
+  if (IdPending) {
+    return <div>loading...</div>;
+  }
+
+  if (!idData?.id) {
+    return <div>no data !</div>;
+  }
+  if (isPending) {
     return <div>loading...</div>;
   }
 
